@@ -1,8 +1,12 @@
 var bet_config = {
-    start_bet: 5,
+    start_bet: 1,
     bet_limit: 7,
     bet_delay: 85
 };
+
+bet_config.start_bet = prompt('Type Start Bet:')
+bet_config.bet_delay = prompt('Type Start Bet: Default 85')
+
 var fight_status = document.querySelector('#fight-status');
 var bet_amount = document.querySelector('#bet-amount');
 var bet_meron = document.querySelector('#tote-meron-odd');
@@ -11,7 +15,7 @@ var bet_wala = document.querySelector('#tote-wala-odd');
 var btn_meron =  document.querySelector('.add-bet[data-team="meron"]');
 var btn_wala =  document.querySelector('.add-bet[data-team="wala"]');
 
-var bets_amount = [bet_config.start_bet];
+var bets_amount = [parseInt(bet_config.start_bet)];
 let increase = bet_config.start_bet - (bet_config.start_bet * 0.2);
 for (let index = 1; index < bet_config.bet_limit; index++) {
     let new_bet = Math.round((bets_amount[index - 1] * 2) + increase);
@@ -65,7 +69,7 @@ function runScript() {
             sequence.open = true;
             console.log("Bet Open!");
             analyzeRooster();
-            setTimeout(setBet, (bet_config.bet_delay * 1000));
+            setTimeout(setBet, (parseInt(bet_config.bet_delay) * 1000));
         }
     }else {
         sequence.open = false;
