@@ -1,7 +1,7 @@
 var bet_config = {
-    start_bet: 1,
+    start_bet: 5,
     bet_limit: 7,
-    bet_delay: 95
+    bet_delay: 85
 };
 var fight_status = document.querySelector('#fight-status');
 var bet_amount = document.querySelector('#bet-amount');
@@ -112,6 +112,7 @@ function runScript() {
                 }
             }else {
                 sequence.close = false;
+                console.log(fight_status.innerHTML);
             }
             sequence.won = false;
         }
