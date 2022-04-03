@@ -1,0 +1,171 @@
+var bet_config = {
+    start_bet: 1,
+    bet_limit: 7,
+    bet_delay: 95
+};
+var fight_status = document.querySelector('#fight-status');
+var bet_amount = document.querySelector('#bet-amount');
+var bet_meron = document.querySelector('#tote-meron-odd');
+var bet_wala = document.querySelector('#tote-wala-odd');
+
+var btn_meron =  document.querySelector('.add-bet[data-team="meron"]');
+var btn_wala =  document.querySelector('.add-bet[data-team="wala"]');
+
+var bets_amount = [bet_config.start_bet];
+let increase = bet_config.start_bet - (bet_config.start_bet * 0.2);
+for (let index = 1; index < bet_config.bet_limit; index++) {
+    let new_bet = Math.round((bets_amount[index - 1] * 2) + increase);
+    bets_amount.push(new_bet);
+    if (index >= 5) {
+        increase = increase * 2.6;
+    }else {
+        increase = increase * 2.1;
+    }
+}
+console.log('Bet list');
+console.log(bets_amount);
+var open_durations = [100];
+var open_duration = 0;
+var open_duration_average = 0;
+var bet = {
+    current: 'wala wins',
+    multiplier: 0,
+    count: 0,
+    lost: 0,
+    won: 0,
+    delay: 95
+};
+var sequence = {
+    standby: false,
+    open: false,
+    close:false,
+    won:false
+};
+var start = false;
+var run_script = null;
+var init_script = setInterval(function() {
+    if(fight_status.innerHTML == 'open' && start == false) {
+        return;
+    }else {
+        if (fight_status.innerHTML == 'standby') {
+            console.log("Auto betting start!");
+            start = true;
+            run_script = setInterval(runScript,1000)
+            clearInterval(init_script);
+        }else {
+            return;
+        }
+    }
+}, 1000);
+
+function runScript() {
+    if (fight_status.innerHTML == 'open') {
+        open_duration++;
+        if (sequence.open == false) {
+            sequence.open = true;
+            console.log("Bet Open!");
+            analyzeRooster();
+            setTimeout(setBet, (bet_config.bet_delay * 1000));
+        }
+    }else {
+        sequence.open = false;
+        if (fight_status.innerHTML == 'wala wins' || fight_status.innerHTML == 'meron wins') {
+            if (sequence.won == false) {
+                sequence.won = true;
+                if (fight_status.innerHTML == bet.current) {
+                    bet.won = bets_amount[bet.count] * bet.multiplier;
+                    bet.count = 0;
+                    bet.lost = 0
+                    console.log("You win: "+ bet.won);
+                }else {
+                    bet.count++;
+                    if (bet.count >= bet_config.limit) {
+                        console.log("You lost all the money. TT");
+                        clearInterval(run_script)
+                    }
+                    bet.lost += bets_amount[bet.count];
+                    console.log("You lost "+ bet.count +"x. :(");
+                }
+            }
+        }else {
+            if (fight_status.innerHTML == 'close' || fight_status.innerHTML == 'closed') {
+                open_durations.push(open_duration);
+                if (open_durations.length > 10) {
+                    open_durations.shift();
+                }
+                //get open duration average
+                var sum = 0;
+                for( var i = 0; i < open_durations.length; i++ ){
+                    sum += open_durations[i];
+                }
+                open_duration_average = sum/open_durations.length;
+                bet.delay = 90;
+                open_duration = 0;
+                if (sequence.close == false) {
+                    sequence.close = true;
+                    console.log("Bet closed");
+                    if (bet.current == 'wala wins') {
+                        bet.multiplier = parseFloat(bet_wala.innerHTML);
+                    }else {
+                        bet.multiplier = parseFloat(bet_meron.innerHTML);
+                    }
+                }
+            }else {
+                sequence.close = false;
+            }
+            sequence.won = false;
+        }
+    }
+}
+
+function setBet() {
+    bet_amount.focus();
+    bet_amount.value = bets_amount[bet.count];
+    meron_val = parseFloat(bet_meron.innerHTML);
+    wala_val = parseFloat(bet_wala.innerHTML);
+    if (meron_val > wala_val) {
+        bet.current = 'meron wins';
+        btn_meron.focus();
+        btn_meron.click();
+    }else {
+        bet.current = 'wala wins';
+        btn_wala.focus();
+        btn_wala.click();
+    }
+    console.log("meron: "+ meron_val + "; " + "wala: "+ wala_val);
+    console.log("You bet: " + bet.current);
+    console.log("Bet: "+bets_amount[bet.count]);
+}
+
+function analyzeRooster() {
+    
+    let messages = [
+        "Checking data.",
+        "Checking Rooster.",
+        "Checking Rooster records.",
+        "Proccessing bet amount.",
+        "Waiting to bet."
+    ];
+    console.log(messages[0]);
+
+    setTimeout(function() {
+        console.log(messages[1]);
+    }, randomNumber(6000, 40000));
+
+    setTimeout(function() {
+        console.log(messages[2]);
+    }, randomNumber(40000, 60000));
+
+    setTimeout(function() {
+        console.log(messages[3]);
+    }, randomNumber(60000, 65000));
+
+    setTimeout(function() {
+        console.log(messages[4]);
+    }, randomNumber(65000, 70000));
+}
+
+function randomNumber(min, max){
+    const r = Math.random()*(max-min) + min
+    return Math.floor(r)
+}
