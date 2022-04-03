@@ -17,6 +17,7 @@ var btn_wala =  document.querySelector('.add-bet[data-team="wala"]');
 
 var bets_amount = [parseInt(bet_config.start_bet)];
 let increase = bet_config.start_bet - (bet_config.start_bet * 0.2);
+var capital_need = parseInt(bet_config.start_bet);
 for (let index = 1; index < bet_config.bet_limit; index++) {
     let new_bet = Math.round((bets_amount[index - 1] * 2) + increase);
     bets_amount.push(new_bet);
@@ -25,9 +26,11 @@ for (let index = 1; index < bet_config.bet_limit; index++) {
     }else {
         increase = increase * 2.1;
     }
+    capital_need+=new_bet;
 }
 console.log('Bet list');
 console.log(bets_amount);
+console.log('Rquired capital: ' + capital_need);
 var open_durations = [100];
 var open_duration = 0;
 var open_duration_average = 0;
