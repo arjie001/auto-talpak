@@ -17,7 +17,7 @@ var btn_wala =  document.querySelector('.add-bet[data-team="wala"]');
 
 var bets_amount = [parseInt(bet_config.start_bet)];
 let increase = bet_config.start_bet - (bet_config.start_bet * 0.2);
-var capital_need = parseInt(bet_config.start_bet);
+var capital_need = bets_amount[0];
 for (let index = 1; index < bet_config.bet_limit; index++) {
     let new_bet = Math.round((bets_amount[index - 1] * 2) + increase);
     bets_amount.push(new_bet);
