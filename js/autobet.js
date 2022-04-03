@@ -5,7 +5,7 @@ var bet_config = {
 };
 
 bet_config.start_bet = prompt('Type Start Bet:')
-bet_config.bet_delay = prompt('Type Start Bet: Default 85')
+bet_config.bet_delay = prompt('Type Bet Delay: Default 85')
 
 var fight_status = document.querySelector('#fight-status');
 var bet_amount = document.querySelector('#bet-amount');
