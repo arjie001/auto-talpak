@@ -163,7 +163,7 @@ function setBet() {
     console.log("Bet: "+bets_amount[bet.count]);
     if (fight_status.innerHTML == 'close' || fight_status.innerHTML == 'closed') {
         console.log("Bet Time out!");
-        bet.delay -= 5;
+        bet_config.bet_delay -= 5;
     }
 }
 
