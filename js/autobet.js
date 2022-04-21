@@ -1,11 +1,16 @@
 var bet_config = {
     start_bet: 1,
     bet_limit: 9,
-    bet_delay: 75
+    bet_delay: 75,
+    quota: 20,
+    test: 1
 };
 
-bet_config.start_bet = prompt('Type Start Bet:')
+bet_config.start_bet = prompt('Type Start Bet:', 1)
 bet_config.bet_delay = prompt('Type Bet Delay: ', 75)
+bet_config.bet_limit = prompt('Type Bet Count Limit: ', 9)
+bet_config.quota = prompt('Type Earning Quota: ', 20)
+bet_config.test = prompt('Run Trial[1(true) or 0(false)]: ', 1)
 
 var fight_status = document.querySelector('#fight-status');
 var bet_amount = document.querySelector('#bet-amount');
@@ -14,10 +19,13 @@ var bet_wala = document.querySelector('#tote-wala-odd');
 
 var btn_meron =  document.querySelector('.add-bet[data-team="meron"]');
 var btn_wala =  document.querySelector('.add-bet[data-team="wala"]');
+var points = document.querySelector('#wallet-amount');
 
 var bets_amount = [parseInt(bet_config.start_bet)];
 let increase = bet_config.start_bet - (bet_config.start_bet * 0.2);
 var capital_need = bets_amount[0];
+var capital_init = parseFloat(points.innerHTML);
+
 for (let index = 1; index < bet_config.bet_limit; index++) {
     let new_bet = Math.round((bets_amount[index - 1] * 2) + increase);
     bets_amount.push(new_bet);
@@ -82,8 +90,13 @@ function runScript() {
                 if (fight_status.innerHTML == bet.current) {
                     bet.won = bets_amount[bet.count] * bet.multiplier;
                     bet.count = 0;
-                    bet.lost = 0
+                    bet.lost = 0;
                     console.log("You win: "+ bet.won);
+                    let total_won = parseFloat(points.innerHTML) - capital_init;
+                    if (bet_config.quota >= total_won) {
+                        clearInterval(run_script);
+                    }
+                    alert("Quta reached. You won: " + total_won);
                 }else {
                     bet.count++;
                     if (bet.count >= bet_config.limit) {
@@ -133,12 +146,16 @@ function setBet() {
     wala_val = parseFloat(bet_wala.innerHTML);
     if (meron_val > wala_val) {
         bet.current = 'meron wins';
-        btn_meron.focus();
-        btn_meron.click();
+        if (bet_config.test == 0) {
+            btn_meron.focus();
+            btn_meron.click();
+        }
     }else {
         bet.current = 'wala wins';
-        btn_wala.focus();
-        btn_wala.click();
+        if (bet_config.test == 0) {
+            btn_wala.focus();
+            btn_wala.click();
+        }
     }
     console.log("meron: "+ meron_val + "; " + "wala: "+ wala_val);
     console.log("You bet: " + bet.current);
