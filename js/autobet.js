@@ -93,6 +93,8 @@ function runScript() {
                     bet.lost = 0;
                     console.log("You win: "+ bet.won);
                     let total_won = parseFloat(points.innerHTML) - capital_init;
+                    console.log(parseFloat(points.innerHTML))
+                    console.log(capital_init)
                     if (bet_config.quota < total_won) {
                         clearInterval(run_script);
                         alert("Quota reached. You won: " + total_won);
