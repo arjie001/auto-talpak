@@ -95,7 +95,7 @@ function runScript() {
                     let total_won = parseFloat(points.innerHTML) - capital_init;
                     if (bet_config.quota < total_won) {
                         clearInterval(run_script);
-                        alert("Quta reached. You won: " + total_won);
+                        alert("Quota reached. You won: " + total_won);
                     }
                     
                 }else {
