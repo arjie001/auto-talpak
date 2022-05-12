@@ -90,7 +90,7 @@ function runScript() {
                 sequence.won = true;
                 if (fight_status.innerHTML == bet.current) {
                     bet.won = bets_amount[bet.count] * bet.multiplier;
-                    total_won += (bet.won - bets_amout[bet.count]);
+                    total_won += (bet.won - bets_amount[bet.count]);
                     bet.count = 0;
                     bet.lost = 0;
                     console.log("You win: "+ bet.won);
