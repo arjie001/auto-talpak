@@ -89,13 +89,11 @@ function runScript() {
                 sequence.won = true;
                 if (fight_status.innerHTML == bet.current) {
                     bet.won = bets_amount[bet.count] * bet.multiplier;
+                    total_won += (bet.won - bets_amout[bet.count]);
                     bet.count = 0;
                     bet.lost = 0;
                     console.log("You win: "+ bet.won);
-                    // let total_won = parseFloat(points.innerHTML) - capital_init;
-                    total_won += bet.won;
-                    console.log(parseFloat(points.innerHTML))
-                    console.log(capital_init)
+                    console.log("Total win: "+ total_won);
                     if (bet_config.quota < total_won) {
                         clearInterval(run_script);
                         alert("Quota reached. You won: " + total_won);
