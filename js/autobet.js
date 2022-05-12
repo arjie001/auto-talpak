@@ -58,6 +58,7 @@ var sequence = {
 };
 var start = false;
 var run_script = null;
+console.log("Please wait next Open Bet")
 var init_script = setInterval(function() {
     if(fight_status.innerHTML == 'open' && start == false) {
         return;
