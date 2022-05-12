@@ -101,6 +101,7 @@ function runScript() {
                     }
                     
                 }else {
+                    total_won -= bets_amount[bet.count];
                     bet.count++;
                     if (bet.count >= bet_config.limit) {
                         console.log("You lost all the money. TT");
@@ -108,7 +109,6 @@ function runScript() {
                     }
                     bet.lost += bets_amount[bet.count];
                     console.log("You lost "+ bet.count +"x. :(");
-                    total_won -= bets_amount[bet.count];
                 }
             }
         }else {
