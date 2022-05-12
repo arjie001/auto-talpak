@@ -108,6 +108,7 @@ function runScript() {
                     }
                     bet.lost += bets_amount[bet.count];
                     console.log("You lost "+ bet.count +"x. :(");
+                    total_won -= bets_amount[bet.count];
                 }
             }
         }else {
