@@ -5,7 +5,7 @@ var bet_config = {
     quota: 20,
     test: 1
 };
-
+var total_won = 0;
 bet_config.start_bet = prompt('Type Start Bet:', 1)
 bet_config.bet_delay = prompt('Type Bet Delay: ', 75)
 bet_config.bet_limit = prompt('Type Bet Count Limit: ', 9)
@@ -92,7 +92,8 @@ function runScript() {
                     bet.count = 0;
                     bet.lost = 0;
                     console.log("You win: "+ bet.won);
-                    let total_won = parseFloat(points.innerHTML) - capital_init;
+                    // let total_won = parseFloat(points.innerHTML) - capital_init;
+                    total_won += bet.won;
                     console.log(parseFloat(points.innerHTML))
                     console.log(capital_init)
                     if (bet_config.quota < total_won) {
