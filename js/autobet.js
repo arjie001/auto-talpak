@@ -63,7 +63,7 @@ var init_script = null;
 
 //start
 generateRunButton();
-
+alert("Start Button at the bottom of the page");
 // FUNCTIONS
 function runScript() {
     if (fight_status.innerHTML == 'open') {
