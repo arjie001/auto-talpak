@@ -24,7 +24,11 @@ var points = document.querySelector('#wallet-amount');
 var bets_amount = [parseInt(bet_config.start_bet)];
 let increase = bet_config.start_bet - (bet_config.start_bet * 0.2);
 var capital_need = bets_amount[0];
-var capital_init = parseFloat(points.innerHTML);
+let tmp_capital_init = {
+    initial: parseFloat(points.innerHTML),
+    total_won: 0
+};
+var capital = Object.assign(tmp_capital_init);
 
 for (let index = 1; index < bet_config.bet_limit; index++) {
     let new_bet = Math.round((bets_amount[index - 1] * 2) + increase);
@@ -91,17 +95,20 @@ function runScript() {
                 if (fight_status.innerHTML == bet.current) {
                     bet.won = bets_amount[bet.count] * bet.multiplier;
                     total_won += (bet.won - bets_amount[bet.count]);
+                    capital.total_won = parseFloat(points.innerHTML) - capital.initial;
                     bet.count = 0;
                     bet.lost = 0;
                     console.log("You win: "+ bet.won);
-                    console.log("Total win: "+ total_won);
-                    if (bet_config.quota < total_won) {
+                    console.log("Total win: "+ capital.total_won);
+                    console.log("Initial capital: "+ capital.initial);
+                    if (bet_config.quota < capital.total_won) {
                         clearInterval(run_script);
-                        alert("Quota reached. You won: " + total_won);
+                        alert("Quota reached. You won: " + capital.total_won);
                     }
                     
                 }else {
                     total_won -= bets_amount[bet.count];
+                    capital.total_won += (bet.won - bets_amount[bet.count]);
                     bet.count++;
                     if (bet.count >= bet_config.limit) {
                         console.log("You lost all the money. TT");
