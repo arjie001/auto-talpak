@@ -212,10 +212,12 @@ function generateRunButton() {
     btn.onclick = function () {
         if (init_script == null) {
             btn.innerHTML = "Stop Auto Bet";
-            startScript()
+            startScript();
         }else {
             btn.innerHTML = "Start Auto Bet";
+            console.log("Auto Bet Stopped")
             clearInterval(run_script);
+            init_script = null;            
         }
     };
     document.body.appendChild(btn);
