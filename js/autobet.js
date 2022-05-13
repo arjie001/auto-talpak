@@ -16,17 +16,17 @@ var btn_meron =  document.querySelector('.add-bet[data-team="meron"]');
 var btn_wala =  document.querySelector('.add-bet[data-team="wala"]');
 var points = document.querySelector('#wallet-amount');
 
-var bets_amount = [parseInt(bet_config.start_bet)];
-let increase = bet_config.start_bet - (bet_config.start_bet * 0.2);
-var capital_need = bets_amount[0];
-let str = points.innerHTML.replace(',','');
+var bets_amount = [];
+// let increase = bet_config.start_bet - (bet_config.start_bet * 0.2);
+var capital_need = 0;
+/* let str = points.innerHTML.replace(',','');
 let tmp_capital_init = {
     initial: parseFloat(str),
     total_won: 0
-};
-var capital = Object.assign(tmp_capital_init);
+}; */
+var capital = {}//Object.assign(tmp_capital_init);
 
-for (let index = 1; index < bet_config.bet_limit; index++) {
+/* for (let index = 1; index < bet_config.bet_limit; index++) {
     let new_bet = Math.round((bets_amount[index - 1] * 2) + increase);
     bets_amount.push(new_bet);
     if (index >= 5) {
@@ -38,7 +38,8 @@ for (let index = 1; index < bet_config.bet_limit; index++) {
 }
 console.log('Bet list');
 console.log(bets_amount);
-console.log('Rquired capital: ' + capital_need);
+console.log('Rquired capital: ' + capital_need); */
+//
 var open_durations = [100];
 var open_duration = 0;
 var open_duration_average = 0;
@@ -226,6 +227,31 @@ function startScript() {
     bet_config.bet_limit = prompt('Type Bet Count Limit: ', 9)
     bet_config.quota = prompt('Type Earning Quota: ', 20)
     bet_config.test = prompt('Run Trial[1(true) or 0(false)]: ', 1)
+
+    bets_amount.push(parseInt(bet_config.start_bet));
+    let increase = bet_config.start_bet - (bet_config.start_bet * 0.2);
+    capital_need = bets_amount[0];
+    let str = points.innerHTML.replace(',','');
+    let tmp_capital_init = {
+        initial: parseFloat(str),
+        total_won: 0
+    };
+    capital = Object.assign(tmp_capital_init);
+
+    for (let index = 1; index < bet_config.bet_limit; index++) {
+        let new_bet = Math.round((bets_amount[index - 1] * 2) + increase);
+        bets_amount.push(new_bet);
+        if (index >= 5) {
+            increase = increase * 2.6;
+        }else {
+            increase = increase * 2.1;
+        }
+        capital_need+=new_bet;
+    }
+    console.log('Bet list');
+    console.log(bets_amount);
+    console.log('Rquired capital: ' + capital_need);
+
     console.log("Please wait next Open Bet")
     init_script = setInterval(function() {
         if(fight_status.innerHTML == 'open' && start == false) {
