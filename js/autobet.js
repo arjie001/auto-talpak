@@ -93,23 +93,20 @@ function runScript() {
         if (fight_status.innerHTML == 'wala wins' || fight_status.innerHTML == 'meron wins') {
             if (sequence.won == false) {
                 sequence.won = true;
-                if (fight_status.innerHTML == bet.current) {
-                    bet.won = bets_amount[bet.count] * bet.multiplier;
-                    total_won += (bet.won - bets_amount[bet.count]);
-                    let str = points.innerHTML.replace(',','');
-                    capital.total_won = parseFloat(str) - capital.initial;
+                if (fight_status.innerHTML == bet.current) {                    
                     bet.count = 0;
                     bet.lost = 0;
                     console.log("You win: "+ bet.won);
-                    console.log("Total win: "+ capital.total_won);
-                    console.log("Initial capital: "+ capital.initial);
-                    if (bet_config.quota < capital.total_won) {
-                        clearInterval(run_script);
-                        alert("Quota reached. You won: " + capital.total_won);
-                    }
-                    
+                    setTimeout(function() {
+                        let str = points.innerHTML.replace(',','');
+                        capital.total_won = parseFloat(str) - capital.initial;
+                        console.log("Total win: "+ capital.total_won);
+                        if (bet_config.quota < capital.total_won) {
+                            clearInterval(run_script);
+                            alert("Quota reached. You won: " + capital.total_won);
+                        }
+                    }, 20000);                    
                 }else {
-                    total_won -= bets_amount[bet.count];
                     bet.count++;
                     if (bet.count >= bet_config.limit) {
                         console.log("You lost all the money. TT");
