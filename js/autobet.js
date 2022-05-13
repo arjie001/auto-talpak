@@ -52,6 +52,7 @@ function runScript() {
         if (sequence.open == false) {
             sequence.open = true;
             console.log("Bet Open!");
+            generateLog("Bet Open!");
             analyzeRooster();
             setTimeout(setBet, (parseInt(bet_config.bet_delay) * 1000));
         }
@@ -65,10 +66,12 @@ function runScript() {
                     bet.count = 0;
                     bet.lost = 0;
                     console.log("You win: "+ bet.won);
+                    generateLog("You win: "+ bet.won);
                     setTimeout(function() {
                         let str = points.innerHTML.replace(',','');
                         capital.total_won = parseFloat(str) - capital.initial;
                         console.log("Total win: "+ capital.total_won);
+                        generateLog("Total win: "+ capital.total_won);
                         if (bet_config.quota < capital.total_won) {
                             btnStartClick();
                             alert("Quota reached. You won: " + capital.total_won);
@@ -78,10 +81,12 @@ function runScript() {
                     bet.count++;
                     if (bet.count >= bet_config.limit) {
                         console.log("You lost all the money. TT");
+                        generateLog("You lost all the money. TT");
                         btnStartClick();
                     }
                     bet.lost += bets_amount[bet.count];
                     console.log("You lost "+ bet.count +"x. :(");
+                    generateLog("You lost "+ bet.count +"x. :(");
                 }
             }
         }else {
@@ -101,6 +106,7 @@ function runScript() {
                 if (sequence.close == false) {
                     sequence.close = true;
                     console.log("Bet closed");
+                    generateLog("Bet closed");
                     if (bet.current == 'wala wins') {
                         bet.multiplier = parseFloat(bet_wala.innerHTML);
                     }else {
@@ -110,6 +116,7 @@ function runScript() {
             }else {
                 sequence.close = false;
                 console.log(fight_status.innerHTML);
+                generateLog(fight_status.innerHTML);
             }
             sequence.won = false;
         }
@@ -135,10 +142,14 @@ function setBet() {
         }
     }
     console.log("meron: "+ meron_val + "; " + "wala: "+ wala_val);
+    generateLog("meron: "+ meron_val + "; " + "wala: "+ wala_val);
     console.log("You bet: " + bet.current);
+    generateLog("You bet: " + bet.current);
     console.log("Bet: "+bets_amount[bet.count]);
+    generateLog("Bet: "+bets_amount[bet.count]);
     if (fight_status.innerHTML == 'close' || fight_status.innerHTML == 'closed') {
         console.log("Bet Time out!");
+        generateLog("Bet Time out!");
         bet_config.bet_delay -= 5;
     }
 }
@@ -153,21 +164,25 @@ function analyzeRooster() {
         "Waiting to bet."
     ];
     console.log(messages[0]);
-
+    generateLog(messages[0]);
     setTimeout(function() {
         console.log(messages[1]);
+        generateLog(messages[1]);
     }, randomNumber(6000, 40000));
 
     setTimeout(function() {
         console.log(messages[2]);
+        generateLog(messages[2]);
     }, randomNumber(40000, 60000));
 
     setTimeout(function() {
         console.log(messages[3]);
+        generateLog(messages[3]);
     }, randomNumber(60000, 65000));
 
     setTimeout(function() {
         console.log(messages[4]);
+        generateLog(messages[4]);
     }, randomNumber(65000, 70000));
 }
 
@@ -176,30 +191,58 @@ function randomNumber(min, max){
     return Math.floor(r)
 }
 
-/* var div = document.getElementById("yourDivElement");
-var input = document.createElement("textarea");
-var button = document.createElement("button");
-input.name = "post";
-input.maxLength = "5000";
-input.cols = "80";
-input.rows = "40";
-div.appendChild(input); //appendChild
-div.appendChild(button); */
-
 function generateRunButton() {
     //container
     let div = document.createElement("div");
-    div.classList.add('fixed-top');
+    div.classList.add('fixed-bottom', 'w-100', 'bg-white');
+    div.style.height = '30vh';
     document.body.appendChild(div);
 
-    let btn = document.createElement("button");
-    btn.innerHTML = "Start Auto Bet";
-    btn.classList.add('btn', 'btn-success', 'm-2');
-    btn.setAttribute('id','start-auto-bet');
-    btn.onclick = function () {
+    let div_button = document.createElement("div");
+    div_button.classList.add('bg-dark');
+    div.appendChild(div_button);
+
+    let btn_start = document.createElement("button");
+    btn_start.innerHTML = "Start Auto Bet";
+    btn_start.classList.add('btn', 'btn-success', 'm-2');
+    btn_start.setAttribute('id','start-auto-bet');
+    btn_start.onclick = function () {
         btnStartClick();
     };
-    div.appendChild(btn);
+    div_button.appendChild(btn_start);
+
+    let btn_minimize = document.createElement("button");
+    btn_minimize.innerHTML = "Minimize";
+    btn_minimize.classList.add('btn', 'btn-secondary', 'm-2');
+    btn_minimize.setAttribute('id','console-minimize');
+    btn_minimize.style.cssText  = 'position:absolute;right:0px';
+    let minimized = false;
+    btn_minimize.onclick = function () {
+        if (minimized) {
+            div.style.height = '30vh';
+            minimized = false;
+            btn_minimize.innerHTML = "Minimize";
+        } else {
+            div.style.height = div_button.offsetHeight+'px';
+            minimized = true;
+            btn_minimize.innerHTML = "Maximize";
+        }
+    };
+    div_button.appendChild(btn_minimize);
+
+    let div_logs = document.createElement("div");
+    div_logs.classList.add('w-100', 'bg-secondary', 'overflow-auto', 'container-fluid');
+    div_logs.style.height = (div.offsetHeight - div_button.offsetHeight)+'px';
+    div_logs.setAttribute('id','console-logs');
+    div.appendChild(div_logs);
+}
+
+function generateLog(message) {
+    let logs = document.getElementById('console-logs');
+    let p = document.createElement("p");
+    p.classList.add('mb-0');
+    p.innerHTML = message;
+    logs.appendChild(p);
 }
 
 function startScript() {
@@ -231,16 +274,20 @@ function startScript() {
         capital_need+=new_bet;
     }
     console.log('Bet list');
+    generateLog('Bet list');
     console.log(bets_amount);
+    generateLog(bets_amount);
     console.log('Rquired capital: ' + capital_need);
-
-    console.log("Please wait next Open Bet")
+    generateLog('Rquired capital: ' + capital_need);
+    console.log("Please wait next Open Bet");
+    generateLog("Please wait next Open Bet");
     init_script = setInterval(function() {
         if(fight_status.innerHTML == 'open' && start == false) {
             return;
         }else {
             if (fight_status.innerHTML == 'standby') {
                 console.log("Auto betting start!");
+                generateLog("Auto betting start!");
                 start = true;
                 run_script = setInterval(runScript,1000)
                 clearInterval(init_script);
@@ -252,13 +299,14 @@ function startScript() {
 }
 
 function btnStartClick() {
-    btn = document.getElementById('start-auto-bet');
+    let btn = document.getElementById('start-auto-bet');
     if (init_script == null) {
         btn.innerHTML = "Stop Auto Bet";
         startScript();
     }else {
         btn.innerHTML = "Start Auto Bet";
         console.log("Auto Bet Stopped")
+        generateLog("Auto Bet Stopped");
         clearInterval(run_script);
         init_script = null;            
     }
