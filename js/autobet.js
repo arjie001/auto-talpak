@@ -208,3 +208,13 @@ function randomNumber(min, max){
     const r = Math.random()*(max-min) + min
     return Math.floor(r)
 }
+
+function generateStopButton() {
+    let btn = document.createElement("button");
+    btn.innerHTML = "Stop Auto Bet";
+    btn.classList.add('btn', 'btn-success', 'w-100');
+    btn.onclick = function () {
+        clearInterval(run_script);
+    };
+    document.body.appendChild(btn);
+}
