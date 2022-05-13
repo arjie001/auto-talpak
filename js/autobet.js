@@ -6,11 +6,6 @@ var bet_config = {
     test: 1
 };
 var total_won = 0;
-bet_config.start_bet = prompt('Type Start Bet:', 1)
-bet_config.bet_delay = prompt('Type Bet Delay: ', 75)
-bet_config.bet_limit = prompt('Type Bet Count Limit: ', 9)
-bet_config.quota = prompt('Type Earning Quota: ', 20)
-bet_config.test = prompt('Run Trial[1(true) or 0(false)]: ', 1)
 
 var fight_status = document.querySelector('#fight-status');
 var bet_amount = document.querySelector('#bet-amount');
@@ -226,6 +221,11 @@ function generateRunButton() {
 }
 
 function startScript() {
+    bet_config.start_bet = prompt('Type Start Bet:', 1)
+    bet_config.bet_delay = prompt('Type Bet Delay: ', 75)
+    bet_config.bet_limit = prompt('Type Bet Count Limit: ', 9)
+    bet_config.quota = prompt('Type Earning Quota: ', 20)
+    bet_config.test = prompt('Run Trial[1(true) or 0(false)]: ', 1)
     console.log("Please wait next Open Bet")
     init_script = setInterval(function() {
         if(fight_status.innerHTML == 'open' && start == false) {
