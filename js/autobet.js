@@ -17,28 +17,9 @@ var btn_wala =  document.querySelector('.add-bet[data-team="wala"]');
 var points = document.querySelector('#wallet-amount');
 
 var bets_amount = [];
-// let increase = bet_config.start_bet - (bet_config.start_bet * 0.2);
 var capital_need = 0;
-/* let str = points.innerHTML.replace(',','');
-let tmp_capital_init = {
-    initial: parseFloat(str),
-    total_won: 0
-}; */
-var capital = {}//Object.assign(tmp_capital_init);
+var capital = {}
 
-/* for (let index = 1; index < bet_config.bet_limit; index++) {
-    let new_bet = Math.round((bets_amount[index - 1] * 2) + increase);
-    bets_amount.push(new_bet);
-    if (index >= 5) {
-        increase = increase * 2.6;
-    }else {
-        increase = increase * 2.1;
-    }
-    capital_need+=new_bet;
-}
-console.log('Bet list');
-console.log(bets_amount);
-console.log('Rquired capital: ' + capital_need); */
 //
 var open_durations = [100];
 var open_duration = 0;
@@ -63,7 +44,7 @@ var init_script = null;
 
 //start
 generateRunButton();
-alert("Start Button at the bottom of the page");
+alert("Start Button at the top left");
 // FUNCTIONS
 function runScript() {
     if (fight_status.innerHTML == 'open') {
@@ -89,8 +70,7 @@ function runScript() {
                         capital.total_won = parseFloat(str) - capital.initial;
                         console.log("Total win: "+ capital.total_won);
                         if (bet_config.quota < capital.total_won) {
-                            clearInterval(run_script);
-                            init_script = null;
+                            btnStartClick();
                             alert("Quota reached. You won: " + capital.total_won);
                         }
                     }, 10000);                    
@@ -98,7 +78,7 @@ function runScript() {
                     bet.count++;
                     if (bet.count >= bet_config.limit) {
                         console.log("You lost all the money. TT");
-                        clearInterval(run_script)
+                        btnStartClick();
                     }
                     bet.lost += bets_amount[bet.count];
                     console.log("You lost "+ bet.count +"x. :(");
@@ -207,21 +187,19 @@ div.appendChild(input); //appendChild
 div.appendChild(button); */
 
 function generateRunButton() {
+    //container
+    let div = document.createElement("div");
+    div.classList.add('fixed-top');
+    document.body.appendChild(div);
+
     let btn = document.createElement("button");
     btn.innerHTML = "Start Auto Bet";
-    btn.classList.add('btn', 'btn-success', 'w-100');
+    btn.classList.add('btn', 'btn-success', 'm-2');
+    btn.setAttribute('id','start-auto-bet');
     btn.onclick = function () {
-        if (init_script == null) {
-            btn.innerHTML = "Stop Auto Bet";
-            startScript();
-        }else {
-            btn.innerHTML = "Start Auto Bet";
-            console.log("Auto Bet Stopped")
-            clearInterval(run_script);
-            init_script = null;            
-        }
+        btnStartClick();
     };
-    document.body.appendChild(btn);
+    div.appendChild(btn);
 }
 
 function startScript() {
@@ -271,4 +249,17 @@ function startScript() {
             }
         }
     }, 1000);
+}
+
+function btnStartClick() {
+    btn = getElementById('#start-auto-bet');
+    if (init_script == null) {
+        btn.innerHTML = "Stop Auto Bet";
+        startScript();
+    }else {
+        btn.innerHTML = "Start Auto Bet";
+        console.log("Auto Bet Stopped")
+        clearInterval(run_script);
+        init_script = null;            
+    }
 }
