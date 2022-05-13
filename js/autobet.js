@@ -90,6 +90,7 @@ function runScript() {
                         console.log("Total win: "+ capital.total_won);
                         if (bet_config.quota < capital.total_won) {
                             clearInterval(run_script);
+                            init_script = null;
                             alert("Quota reached. You won: " + capital.total_won);
                         }
                     }, 10000);                    
