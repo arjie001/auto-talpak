@@ -44,7 +44,7 @@ var init_script = null;
 
 //start
 generateRunButton();
-alert("Start Button at the top left");
+alert("Start Auto Bet button at the bottom");
 // FUNCTIONS
 function runScript() {
     if (fight_status.innerHTML == 'open') {
