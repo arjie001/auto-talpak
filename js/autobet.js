@@ -230,6 +230,7 @@ function startScript() {
     bet_config.quota = prompt('Type Earning Quota: ', 20)
     bet_config.test = prompt('Run Trial[1(true) or 0(false)]: ', 1)
 
+    bets_amount = [];
     bets_amount.push(parseInt(bet_config.start_bet));
     let increase = bet_config.start_bet - (bet_config.start_bet * 0.2);
     capital_need = bets_amount[0];
