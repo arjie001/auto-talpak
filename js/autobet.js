@@ -24,8 +24,9 @@ var points = document.querySelector('#wallet-amount');
 var bets_amount = [parseInt(bet_config.start_bet)];
 let increase = bet_config.start_bet - (bet_config.start_bet * 0.2);
 var capital_need = bets_amount[0];
+let str = points.innerHTML.replace(',','');
 let tmp_capital_init = {
-    initial: parseFloat(points.innerHTML),
+    initial: parseFloat(str),
     total_won: 0
 };
 var capital = Object.assign(tmp_capital_init);
@@ -95,7 +96,8 @@ function runScript() {
                 if (fight_status.innerHTML == bet.current) {
                     bet.won = bets_amount[bet.count] * bet.multiplier;
                     total_won += (bet.won - bets_amount[bet.count]);
-                    capital.total_won = parseFloat(points.innerHTML) - capital.initial;
+                    let str = points.innerHTML.replace(',','');
+                    capital.total_won = parseFloat(str) - capital.initial;
                     bet.count = 0;
                     bet.lost = 0;
                     console.log("You win: "+ bet.won);
