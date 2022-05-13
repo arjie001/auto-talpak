@@ -93,7 +93,8 @@ function runScript() {
         if (fight_status.innerHTML == 'wala wins' || fight_status.innerHTML == 'meron wins') {
             if (sequence.won == false) {
                 sequence.won = true;
-                if (fight_status.innerHTML == bet.current) {                    
+                if (fight_status.innerHTML == bet.current) {
+                    bet.won = bets_amount[bet.count] * bet.multiplier;
                     bet.count = 0;
                     bet.lost = 0;
                     console.log("You win: "+ bet.won);
@@ -105,7 +106,7 @@ function runScript() {
                             clearInterval(run_script);
                             alert("Quota reached. You won: " + capital.total_won);
                         }
-                    }, 20000);                    
+                    }, 10000);                    
                 }else {
                     bet.count++;
                     if (bet.count >= bet_config.limit) {
