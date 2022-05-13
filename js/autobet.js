@@ -63,22 +63,12 @@ var sequence = {
 };
 var start = false;
 var run_script = null;
-console.log("Please wait next Open Bet")
-var init_script = setInterval(function() {
-    if(fight_status.innerHTML == 'open' && start == false) {
-        return;
-    }else {
-        if (fight_status.innerHTML == 'standby') {
-            console.log("Auto betting start!");
-            start = true;
-            run_script = setInterval(runScript,1000)
-            clearInterval(init_script);
-        }else {
-            return;
-        }
-    }
-}, 1000);
+var init_script = null;
 
+//start
+generateRunButton();
+
+// FUNCTIONS
 function runScript() {
     if (fight_status.innerHTML == 'open') {
         open_duration++;
@@ -209,12 +199,46 @@ function randomNumber(min, max){
     return Math.floor(r)
 }
 
-function generateStopButton() {
+/* var div = document.getElementById("yourDivElement");
+var input = document.createElement("textarea");
+var button = document.createElement("button");
+input.name = "post";
+input.maxLength = "5000";
+input.cols = "80";
+input.rows = "40";
+div.appendChild(input); //appendChild
+div.appendChild(button); */
+
+function generateRunButton() {
     let btn = document.createElement("button");
-    btn.innerHTML = "Stop Auto Bet";
+    btn.innerHTML = "Start Auto Bet";
     btn.classList.add('btn', 'btn-success', 'w-100');
     btn.onclick = function () {
-        clearInterval(run_script);
+        if (init_script == null) {
+            btn.innerHTML = "Stop Auto Bet";
+            startScript()
+        }else {
+            btn.innerHTML = "Start Auto Bet";
+            clearInterval(run_script);
+        }
     };
     document.body.appendChild(btn);
+}
+
+function startScript() {
+    console.log("Please wait next Open Bet")
+    init_script = setInterval(function() {
+        if(fight_status.innerHTML == 'open' && start == false) {
+            return;
+        }else {
+            if (fight_status.innerHTML == 'standby') {
+                console.log("Auto betting start!");
+                start = true;
+                run_script = setInterval(runScript,1000)
+                clearInterval(init_script);
+            }else {
+                return;
+            }
+        }
+    }, 1000);
 }
