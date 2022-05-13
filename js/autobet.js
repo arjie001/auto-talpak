@@ -252,7 +252,7 @@ function startScript() {
 }
 
 function btnStartClick() {
-    btn = document.getElementById('#start-auto-bet');
+    btn = document.getElementById('start-auto-bet');
     if (init_script == null) {
         btn.innerHTML = "Stop Auto Bet";
         startScript();
