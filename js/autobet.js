@@ -41,7 +41,7 @@ var sequence = {
 var start = false;
 var run_script = null;
 var init_script = null;
-
+var old_message = '';
 //start
 generateRunButton();
 alert("Start Auto Bet button at the bottom");
@@ -237,7 +237,6 @@ function generateRunButton() {
     div.appendChild(div_logs);
 }
 
-var old_message = '';
 function generateLog(message) {
     if (message != old_message) {
         let logs = document.getElementById('console-logs');
