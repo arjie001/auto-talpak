@@ -79,7 +79,7 @@ function runScript() {
                     }, 10000);                    
                 }else {
                     bet.count++;
-                    if (bet.count >= bet_config.limit) {
+                    if (bet.count >= (bet_config.limit + 1)) {
                         console.log("You lost all the money. TT");
                         generateLog("You lost all the money. TT");
                         btnStartClick();
