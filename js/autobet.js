@@ -266,9 +266,11 @@ function startScript() {
     for (let index = 1; index < bet_config.bet_limit; index++) {
         let new_bet = Math.round((bets_amount[index - 1] * 2) + increase);
         bets_amount.push(new_bet);
-        if (index >= 5) {
-            increase = increase * 2.6;
-        }else {
+        if (index > 5 && index <= 7) {
+            increase = increase * 2.2;
+        } else if(index > 7) {
+            increase = increase * 2.3;
+        } else {
             increase = increase * 2.1;
         }
         capital_need+=new_bet;
