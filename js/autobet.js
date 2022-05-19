@@ -41,7 +41,7 @@ var sequence = {
 var start = false;
 var run_script = null;
 var init_script = null;
-
+var old_message = '';
 //start
 generateRunButton();
 alert("Start Auto Bet button at the bottom");
@@ -238,11 +238,14 @@ function generateRunButton() {
 }
 
 function generateLog(message) {
-    let logs = document.getElementById('console-logs');
-    let p = document.createElement("p");
-    p.classList.add('mb-0');
-    p.innerHTML = message;
-    logs.appendChild(p);
+    if (message != old_message) {
+        let logs = document.getElementById('console-logs');
+        let p = document.createElement("p");
+        p.classList.add('mb-0');
+        p.innerHTML = message;
+        logs.appendChild(p);
+        old_message = message;
+    }
 }
 
 function startScript() {
